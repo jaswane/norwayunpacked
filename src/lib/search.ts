@@ -1,6 +1,7 @@
-import { allArticles, articlePath } from "@/content";
+import { getDiscoverableArticles, articlePath } from "@/content";
 import { getCategory } from "@/content/categories";
 import { getTopic } from "@/content/topics";
+import { statusLabel } from "@/content/status";
 
 /**
  * Simple static site search (no external service, no AI).
@@ -14,7 +15,8 @@ export interface SearchRecord {
   title: string;
   excerpt: string;
   categoryName: string;
-  status: "draft" | "review" | "published";
+  /** Honest badge for unpublished work ("Draft" / "In review"); null when published. */
+  statusBadge: string | null;
   haystackStrong: string;
   haystackWeak: string;
 }
@@ -23,7 +25,7 @@ function normalize(text: string): string {
   return text.toLowerCase().normalize("NFC").replace(/\s+/g, " ").trim();
 }
 
-const records: SearchRecord[] = allArticles.map((article) => {
+const records: SearchRecord[] = getDiscoverableArticles().map((article) => {
   const category = getCategory(article.category);
   const topicLabels = article.topics
     .map((id) => getTopic(id)?.label ?? "")
@@ -34,7 +36,7 @@ const records: SearchRecord[] = allArticles.map((article) => {
     title: article.title,
     excerpt: article.excerpt,
     categoryName: category?.name ?? article.category,
-    status: article.status,
+    statusBadge: statusLabel(article)?.badge ?? null,
     haystackStrong: normalize([article.title, ...article.aliases, ...topicLabels].join(" | ")),
     haystackWeak: normalize(
       [article.dek, article.excerpt, article.description, category?.name ?? ""].join(" | "),

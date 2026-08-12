@@ -34,9 +34,10 @@ yarn-error.log*
 .env*
 !.env.example
 
-# original high-resolution source photos (kept locally, ~24 MB; only the
-# optimized web variants in public/images/hero are versioned)
-/public/images/Depositphotos_*.jpg
+# original high-resolution source photos and owner-provided reference assets
+# (kept locally; only the optimized web variants in public/images/hero and
+# public/images/article are versioned)
+/public/images/*.jpg
 
 # vercel
 .vercel

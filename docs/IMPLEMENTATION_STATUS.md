@@ -1,5 +1,78 @@
 # Implementation status
 
+## Phase 1A voice + hero — final personal voice and article hero (2026-08-12)
+
+- Andreas note replaced with the owner-approved observation (supplied
+  2026-08-12). One personal note per article; no second placeholder.
+- Article hero approved: owner-supplied photo "Norway's Oil Fund,
+  Explained.jpg" (2832×1888, native 3:2, no crop needed). Variants:
+  public/images/article/oil-fund-hero-{2400,1200}.webp + 2400 AVIF.
+  Originals in public/images root are now ignored via a broadened
+  .gitignore rule (/public/images/*.jpg). Licence/credit details beyond
+  "owner-supplied" are not on file — confirm before launch.
+- Owner's NBIM live-value screenshot kept as local reference only; the
+  fund-numbers fact box instead links to NBIM's front page for the live
+  figure (new optional `link` field on factBox).
+- Per-person section ties the calculation to the millionaire joke.
+- Four micro language fixes (dek, "legal body", "spread thin",
+  "measured against").
+
+## Phase 1A polish — plain-English rewrite of the Oil Fund article (2026-08-12)
+
+- The article was rewritten for plain international English (B1–B2): shorter
+  sentences, common words, one idea per paragraph, technical terms introduced
+  with a simple explanation first. 46 body paragraphs, average 47 words,
+  longest 91.
+- Factual corrections after re-opening primary sources: four petroleum revenue
+  components instead of three (environmental taxes and area fees were missing),
+  SDFI explained in plain English, the rounding gap in NBIM's published value
+  components stated openly, and the structural non-oil deficit (579bn) no longer
+  conflated with the actual transfer to the budget (452bn).
+- New verified nuance in the fiscal-rule section: the Ministry says spending
+  should stay *below* the expected return in good and normal times, and
+  estimates that about 2.7 percent in normal years works out at 3 percent over
+  time — which is why 2026 is 2.7 percent.
+- Public Sources & Fact Check is now compact: one `publicUseSummary` line per
+  source instead of dozens of bullets. The detailed `supportsClaims` audit trail
+  is kept in the data and the research file.
+- **Visibility safeguard:** `previewVisible` / `getDiscoverableArticles()` in
+  `src/content/index.ts`. While `SITE_INDEXABLE=false`, drafts and in-review
+  articles stay browsable for review. When the gate is opened, they vanish from
+  hub lists, search, homepage modules and related links, and their routes are no
+  longer generated, so they 404 instead of relying on a noindex tag. Verified by
+  building with `SITE_INDEXABLE=true`.
+- Second `[ANDREAS INPUT REQUIRED]` placeholder removed; the current officeholder
+  at NBIM is no longer named.
+
+## Phase 1A — First production article: Norway's Oil Fund (2026-08-12)
+
+- `/how-norway-works/oil-fund` rewritten as a real, researched article
+  (~3,000 words) with all factual claims verified against primary sources on
+  2026-08-12. Research record, claim inventory, mutable-figure register and
+  known gaps: `docs/research/oil-fund-research.md`.
+- Sources: Ministry of Finance (Government Pension Fund Act, management
+  mandate, fiscal policy framework, Santiago Principles self-assessment,
+  Revised National Budget 2026, Meld. St. 19 (2013–2014)), NBIM (H1 2026
+  report, fund value, history, investments), Ministry of Energy /
+  Norwegian Offshore Directorate (norskpetroleum.no), SSB (population).
+- Status model now used honestly: `status: "review"` +
+  `reviewStatus: "fact-checked"`. The article is fact-checked but not
+  approved for publication, so it stays noindex, stays out of the sitemap,
+  and gets no Article schema (BreadcrumbList only).
+- Content/UI additions this sprint:
+  - `figure` body block — inline editorial image/diagram using the existing
+    placeholder-first image model (used for a money-flow diagram brief).
+  - `src/content/status.ts` — single source of truth for honest status
+    labels; "Draft" and "In review" are no longer conflated in the article
+    banner, hub list, search results or homepage card.
+  - Sources block now renders `supportsClaims` per source, and states that
+    Andreas notes are personal observation not covered by the sources.
+- Two image briefs, both placeholders: `ARTICLE-HERO-oil-fund` (documentary
+  North Sea installation, 3:2) and `ARTICLE-DIAGRAM-oil-fund-flow` (16:9).
+- One `[ANDREAS INPUT REQUIRED]` placeholder remains, for a personal
+  observation near the end of the article.
+
+
 ## Phase 0.6 — Hero image test with real local asset (2026-08-12)
 
 - HOME-HERO-01 is now an approved asset (explicit owner decision this

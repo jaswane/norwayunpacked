@@ -1,4 +1,5 @@
 import type { BodyBlock } from "@/content/types";
+import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 
 /**
  * Renders the shared editorial primitives. Reading width is constrained by
@@ -62,6 +63,17 @@ function Block({ block }: { block: BodyBlock }) {
             ))}
           </dl>
           {block.note && <p className="mt-3 text-xs text-ink-faint">{block.note}</p>}
+          {block.link && (
+            <p className="mt-2 text-sm">
+              <a
+                href={block.link.href}
+                rel="noopener"
+                className="text-accent underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent"
+              >
+                {block.link.label}
+              </a>
+            </p>
+          )}
         </aside>
       );
 
@@ -106,6 +118,22 @@ function Block({ block }: { block: BodyBlock }) {
         <div className="border border-dashed border-line-strong px-5 py-3">
           <p className="text-sm italic leading-relaxed text-ink-faint">{block.text}</p>
         </div>
+      );
+
+    case "figure":
+      return (
+        <figure className="py-2">
+          <ImagePlaceholder
+            image={block.image}
+            sizes="(min-width: 768px) 45rem, 100vw"
+            className="w-full"
+          />
+          {block.caption && (
+            <figcaption className="mt-2 text-sm leading-relaxed text-ink-faint">
+              {block.caption}
+            </figcaption>
+          )}
+        </figure>
       );
   }
 }

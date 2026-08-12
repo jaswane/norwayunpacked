@@ -60,7 +60,15 @@ export const sourceRefSchema = z.object({
   url: z.string().url(),
   sourceType: z.enum(["official", "data", "research", "reference", "journalism", "specialist"]),
   checkedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(),
+  /**
+   * Detailed internal audit trail: the specific claims this source backs.
+   * Kept in the data for future fact-check refreshes; not rendered publicly,
+   * because a reader wants to know roughly what a source was used for, not
+   * read a compliance report.
+   */
   supportsClaims: z.array(z.string()).optional(),
+  /** One short line shown to readers: what this source was used for. */
+  publicUseSummary: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -87,6 +95,8 @@ const factBoxBlock = z.object({
   title: z.string().min(1),
   items: z.array(z.object({ label: z.string(), value: z.string(), asOf: z.string().optional() })),
   note: z.string().optional(),
+  /** Small trailing source link, e.g. to a live official figure. Not a CTA. */
+  link: z.object({ label: z.string().min(1), href: z.string().url() }).optional(),
 });
 const timelineBlock = z.object({
   type: z.literal("timeline"),
@@ -105,6 +115,17 @@ const andreasNoteBlock = z.object({
 });
 /** Visible editorial scaffolding for drafts — never shipped on published pages. */
 const editorialNoteBlock = z.object({ type: z.literal("editorialNote"), text: z.string().min(1) });
+/**
+ * An inline editorial image or explanatory graphic, with an optional caption.
+ * Uses the same placeholder-first image model as article heroes, so a planned
+ * diagram or photograph reserves its final ratio and carries a written brief
+ * long before the asset exists.
+ */
+const figureBlock = z.object({
+  type: z.literal("figure"),
+  image: imageAssetSchema,
+  caption: z.string().min(1).optional(),
+});
 
 export const bodyBlockSchema = z.discriminatedUnion("type", [
   paragraphBlock,
@@ -115,6 +136,7 @@ export const bodyBlockSchema = z.discriminatedUnion("type", [
   timelineBlock,
   andreasNoteBlock,
   editorialNoteBlock,
+  figureBlock,
 ]);
 
 export type BodyBlock = z.infer<typeof bodyBlockSchema>;

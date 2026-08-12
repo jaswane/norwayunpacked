@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getTopic } from "@/content/topics";
-import { allArticles, articlePath } from "@/content";
+import { getPublishedArticles, articlePath } from "@/content";
 
 /**
  * Curated knowledge-graph links — explicit relations, never "recent posts".
@@ -15,7 +15,7 @@ export function RelatedTopics({ topicIds }: { topicIds: string[] }) {
     .filter((t): t is NonNullable<typeof t> => Boolean(t))
     .map((topic) => {
       const article = topic.articleSlug
-        ? allArticles.find((a) => a.slug === topic.articleSlug && a.status === "published")
+        ? getPublishedArticles().find((a) => a.slug === topic.articleSlug)
         : undefined;
       return { topic, href: article ? articlePath(article) : null };
     });

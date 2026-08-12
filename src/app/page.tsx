@@ -5,6 +5,9 @@ import { categories } from "@/content/categories";
 import { homeImages } from "@/content/homeImages";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { worldIcons } from "@/components/WorldIcons";
+import { statusLabel } from "@/content/status";
+import { previewVisible } from "@/content";
+import { oilFundArticle } from "@/content/articles/oil-fund";
 import { SearchForm } from "@/components/SearchForm";
 import { JsonLd } from "@/components/JsonLd";
 import { buildMetadata } from "@/lib/metadata";
@@ -42,9 +45,12 @@ const worksCards = [
   {
     image: homeImages.works1,
     title: "Norway's Oil Fund, explained",
-    text: "How Norway turned oil into the world's largest sovereign wealth fund — and why the state can't just spend the money.",
-    href: "/how-norway-works/oil-fund",
-    draft: true,
+    text: "How Norway turned oil income into one of the world's largest investment funds — and why the state can't just spend the money.",
+    // Only link while the article is discoverable; once the site opens for
+    // indexing, unpublished work disappears from public modules entirely.
+    href: previewVisible ? "/how-norway-works/oil-fund" : null,
+    // Label mirrors the article's real editorial state rather than a hardcoded word.
+    label: statusLabel(oilFundArticle)?.badge ?? null,
   },
   {
     image: homeImages.works2,
@@ -233,7 +239,7 @@ export default function HomePage() {
                 </h3>
                 <p className="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">{card.text}</p>
                 <p className="mt-2 text-xs uppercase tracking-wide text-ink-faint">
-                  {card.draft ? "Draft preview" : "Coming soon"}
+                  {card.label ?? "Coming soon"}
                 </p>
               </li>
             ))}

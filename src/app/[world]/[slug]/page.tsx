@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { allArticles, getArticle, articlePath } from "@/content";
+import { getDiscoverableArticles, getArticle, articlePath } from "@/content";
 import { getCategory } from "@/content/categories";
 import { categorySlugSchema } from "@/content/types";
+import { statusLabel } from "@/content/status";
 import { buildMetadata } from "@/lib/metadata";
 import { JsonLd } from "@/components/JsonLd";
 import { articleSchema, breadcrumbSchema } from "@/lib/schema";
@@ -15,7 +16,12 @@ import { RelatedTopics } from "@/components/editorial/RelatedTopics";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return allArticles.map((article) => ({ world: article.category, slug: article.slug }));
+  // Unpublished work only gets a route while the site is closed; see
+  // getDiscoverableArticles(). With dynamicParams = false it 404s otherwise.
+  return getDiscoverableArticles().map((article) => ({
+    world: article.category,
+    slug: article.slug,
+  }));
 }
 
 export async function generateMetadata({
@@ -50,6 +56,7 @@ export default async function ArticlePage({
   if (!article) notFound();
   const category = getCategory(article.category)!;
   const isPublished = article.status === "published";
+  const status = statusLabel(article);
 
   return (
     <article className="pb-8">
@@ -62,11 +69,10 @@ export default async function ArticlePage({
       />
       {isPublished && <JsonLd data={articleSchema(article)} />}
 
-      {!isPublished && (
+      {status && (
         <div className="border-b border-line bg-paper-shade">
-          <p className="mx-auto max-w-page px-5 py-3 text-sm text-ink-soft lg:px-8">
-            <strong className="font-semibold text-signal">Draft.</strong> This article is an
-            unpublished work in progress. Content has not been fact-checked and is not final.
+          <p className="mx-auto max-w-page px-5 py-3 text-sm leading-relaxed text-ink-soft lg:px-8">
+            <strong className="font-semibold text-signal">{status.badge}.</strong> {status.banner}
           </p>
         </div>
       )}
@@ -102,9 +108,9 @@ export default async function ArticlePage({
             {article.factCheckedAt && (
               <span className="text-accent">Fact-checked {formatDate(article.factCheckedAt)}</span>
             )}
-            {!isPublished && (
+            {status && (
               <span className="border border-line-strong bg-paper-shade px-1.5 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wide text-ink-faint">
-                Draft — not fact-checked
+                {status.badge} — not yet published
               </span>
             )}
           </div>

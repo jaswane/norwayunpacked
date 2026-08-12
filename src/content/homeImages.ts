@@ -19,7 +19,7 @@ export const homeImages: Record<string, ImageAsset> = {
       "Wide editorial Norway scene with space for hero text. Recognizably Norwegian, but not pure postcard tourism — fjord or mountains with signs of real life such as a house, road, ferry or settlement.",
     alt: "Red wooden cabins on a rocky shoreline beneath steep snow-covered mountains on the Norwegian coast",
     aspectRatio: "3 / 2",
-    source: "Owner-supplied licensed stock (Depositphotos_380868968_XL.jpg)",
+    source: "Depositphotos (asset 380868968, per original filename)",
     credit: "Depositphotos",
     license: "Depositphotos Standard License",
   },

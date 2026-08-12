@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { categories, getCategory } from "@/content/categories";
 import { getArticlesByCategory, articlePath } from "@/content";
 import { categorySlugSchema } from "@/content/types";
+import { statusLabel } from "@/content/status";
 import { buildMetadata } from "@/lib/metadata";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
@@ -97,7 +98,7 @@ export default async function WorldHubPage({
       {inProduction.length > 0 && (
         <section aria-labelledby="production-heading" className="mt-10 max-w-2xl">
           <h2 id="production-heading" className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ink-faint">
-            In production — draft previews
+            {statusLabel(inProduction[0])?.groupHeading ?? "Not yet published"}
           </h2>
           <ul className="mt-3 divide-y divide-line border-y border-line">
             {inProduction.map((article) => (
@@ -107,7 +108,7 @@ export default async function WorldHubPage({
                     {article.title}
                   </Link>
                   <span className="ml-2 align-middle border border-line-strong bg-paper-shade px-1.5 py-0.5 text-[0.625rem] font-sans font-semibold uppercase tracking-wide text-ink-faint">
-                    Draft
+                    {statusLabel(article)?.badge}
                   </span>
                 </h3>
                 <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{article.excerpt}</p>

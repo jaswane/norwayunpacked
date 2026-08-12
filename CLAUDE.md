@@ -55,9 +55,16 @@ blog, affiliate site or SEO content farm.
   supports slug/seo/dek/excerpt/aliases/topics/relatedTopics/status/reviewStatus/
   freshnessClass (F0–F3)/publishedAt/updatedAt/factCheckedAt/image/sources/body.
 - Body = composable editorial primitives (shortAnswer, andreasNote, factBox,
-  definition, timeline, editorialNote, …) rendered by
+  definition, timeline, figure, editorialNote, …) rendered by
   `src/components/editorial/ArticleBody.tsx`. Published articles may not contain
   `editorialNote` blocks or unfilled Andreas notes (enforced by schema).
+- Editorial state: `status` is draft → review → published and `reviewStatus` is
+  draft → needs-fact-check → fact-checked. Only `status: "published"` enters the
+  sitemap, drops noindex and gets Article schema. Never describe a fact-checked
+  article as a draft or vice versa — the labels live in `src/content/status.ts`.
+- Every production article needs a research record under `docs/research/` with a
+  claim inventory, the sources actually opened, the mutable figures with dates,
+  and known gaps. `factCheckedAt` may only be set when that work was really done.
 - Categories = the 8 stable worlds (`src/content/categories.ts`). Knowledge graph =
   explicit topic IDs (`src/content/topics.ts`) referenced by `relatedTopics`.
 - Routes: `/` + 8 world hubs + `/{world}/{slug}` articles + search + info pages.

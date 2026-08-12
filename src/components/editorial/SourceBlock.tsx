@@ -18,6 +18,7 @@ export function SourceBlock({ article }: { article: Article }) {
   if (article.sources.length === 0) return null;
 
   const allVerified = article.sources.every((s) => s.checkedAt !== null);
+  const hasPersonalNote = article.body.some((b) => b.type === "andreasNote" && b.text !== null);
 
   return (
     <section aria-labelledby="sources-heading" className="mt-12 border-t-2 border-ink pt-6">
@@ -51,7 +52,17 @@ export function SourceBlock({ article }: { article: Article }) {
                 {sourceTypeLabels[source.sourceType]}
               </span>
             </div>
-            <p className="mt-1 text-sm text-ink-soft">{source.organisation}</p>
+            <p className="mt-1 text-sm leading-snug text-ink-soft">
+              {source.organisation}
+              {source.publicUseSummary && (
+                <>
+                  <span aria-hidden="true" className="mx-1.5 text-line-strong">
+                    ·
+                  </span>
+                  <span className="text-ink-faint">Used for {source.publicUseSummary}</span>
+                </>
+              )}
+            </p>
             {source.notes && <p className="mt-1 text-sm text-ink-faint">{source.notes}</p>}
             <p className="mt-1 text-xs text-ink-faint">
               {source.checkedAt ? `Last checked ${formatDate(source.checkedAt)}` : "Not yet verified"}
@@ -60,11 +71,18 @@ export function SourceBlock({ article }: { article: Article }) {
         ))}
       </ul>
 
-      {!allVerified && (
-        <p className="mt-4 text-xs text-ink-faint">
-          For important decisions, always confirm details with the official source directly.
+      {hasPersonalNote && (
+        <p className="mt-4 text-sm leading-relaxed text-ink-faint">
+          Sections marked as coming from Andreas are personal or cultural observation, not
+          documented fact, and are not covered by the sources above.
         </p>
       )}
+
+      <p className="mt-3 text-xs leading-relaxed text-ink-faint">
+        {allVerified
+          ? "Rules, rates and figures change. For decisions that affect you, confirm the current details with the official source directly."
+          : "For important decisions, always confirm details with the official source directly."}
+      </p>
     </section>
   );
 }

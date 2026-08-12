@@ -57,9 +57,9 @@ export default async function SearchPage({
                     <Link href={result.url} className="transition-colors hover:text-accent">
                       {result.title}
                     </Link>
-                    {result.status !== "published" && (
+                    {result.statusBadge && (
                       <span className="ml-2 align-middle border border-line-strong bg-paper-shade px-1.5 py-0.5 font-sans text-[0.625rem] font-semibold uppercase tracking-wide text-ink-faint">
-                        Draft
+                        {result.statusBadge}
                       </span>
                     )}
                   </h2>

@@ -1,4 +1,5 @@
 import { articleSchema, type Article, type CategorySlug } from "./types";
+import { siteIndexable } from "@/lib/site";
 import { getTopic } from "./topics";
 import { oilFundArticle } from "./articles/oil-fund";
 
@@ -39,17 +40,32 @@ export function getPublishedArticles(): Article[] {
   return allArticles.filter((a) => a.status === "published");
 }
 
-/** Drafts/review articles — visible for local QA, always noindex, never in sitemap. */
-export function getWorkInProgressArticles(): Article[] {
-  return allArticles.filter((a) => a.status !== "published");
+/**
+ * Whether unpublished work may be surfaced at all.
+ *
+ * While the site is closed (SITE_INDEXABLE=false) drafts and in-review
+ * articles stay browsable so they can be reviewed in a real page. The moment
+ * the site is opened for indexing, they disappear from every public surface —
+ * hub lists, search, homepage modules, related links — and their routes stop
+ * being generated, so they 404 rather than sitting on the open web with only
+ * a noindex tag protecting them.
+ */
+export const previewVisible: boolean = !siteIndexable;
+
+/**
+ * The articles any public surface is allowed to show. Use this — not
+ * `allArticles` — for listings, search indexes and route generation.
+ */
+export function getDiscoverableArticles(): Article[] {
+  return previewVisible ? allArticles : getPublishedArticles();
 }
 
 export function getArticle(category: CategorySlug, slug: string): Article | undefined {
-  return allArticles.find((a) => a.category === category && a.slug === slug);
+  return getDiscoverableArticles().find((a) => a.category === category && a.slug === slug);
 }
 
 export function getArticlesByCategory(category: CategorySlug): Article[] {
-  return allArticles.filter((a) => a.category === category);
+  return getDiscoverableArticles().filter((a) => a.category === category);
 }
 
 export function articlePath(article: Article): string {
