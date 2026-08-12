@@ -6,8 +6,8 @@ import { homeImages } from "@/content/homeImages";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { worldIcons } from "@/components/WorldIcons";
 import { statusLabel } from "@/content/status";
-import { previewVisible } from "@/content";
-import { oilFundArticle } from "@/content/articles/oil-fund";
+import { getArticle, articlePath } from "@/content";
+import type { ImageAsset } from "@/content/types";
 import { SearchForm } from "@/components/SearchForm";
 import { JsonLd } from "@/components/JsonLd";
 import { buildMetadata } from "@/lib/metadata";
@@ -41,17 +41,42 @@ const cultureCards = [
   { image: homeImages.culture5, title: "What happens on 17 May?", world: "Culture & Traditions" },
 ];
 
-const worksCards = [
-  {
-    image: homeImages.works1,
-    title: "Norway's Oil Fund, explained",
-    text: "How Norway turned oil income into one of the world's largest investment funds — and why the state can't just spend the money.",
-    // Only link while the article is discoverable; once the site opens for
-    // indexing, unpublished work disappears from public modules entirely.
-    href: previewVisible ? "/how-norway-works/oil-fund" : null,
-    // Label mirrors the article's real editorial state rather than a hardcoded word.
-    label: statusLabel(oilFundArticle)?.badge ?? null,
-  },
+/**
+ * The Oil Fund card derives from the article record itself — image, title,
+ * excerpt, link and status all come from one source of truth. getArticle()
+ * only returns discoverable articles, so when the site opens for indexing an
+ * unpublished article automatically falls back to the placeholder card with
+ * no link, instead of leaking review content onto the public homepage.
+ */
+const oilFund = getArticle("how-norway-works", "oil-fund");
+
+interface EditorialCard {
+  image: ImageAsset;
+  title: string;
+  text: string;
+  href?: string | null;
+  label?: string | null;
+  /** Presentation focal point when a reused article hero is cropped for this module. */
+  focal?: string;
+}
+
+const worksCards: EditorialCard[] = [
+  oilFund
+    ? {
+        image: oilFund.image,
+        title: oilFund.title,
+        text: oilFund.excerpt,
+        href: articlePath(oilFund),
+        label: statusLabel(oilFund)?.badge ?? null,
+        // The 3:2 article hero shown as this module's 16:10 card crop; the
+        // platform sits centre-right in the frame.
+        focal: "60% 45%",
+      }
+    : {
+        image: homeImages.works1,
+        title: "Norway's Oil Fund, explained",
+        text: "How Norway turned oil income into one of the world's largest investment funds — and why the state can't just spend the money.",
+      },
   {
     image: homeImages.works2,
     title: "How Norwegian politics works",
@@ -227,7 +252,13 @@ export default function HomePage() {
           <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {worksCards.map((card) => (
               <li key={card.title} className="flex flex-col">
-                <ImagePlaceholder image={card.image} sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="w-full" />
+                <ImagePlaceholder
+                  image={card.image}
+                  aspectRatio="16 / 10"
+                  focal={card.focal}
+                  sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
+                  className="w-full"
+                />
                 <h3 className="mt-3 font-serif text-base font-semibold leading-snug">
                   {card.href ? (
                     <Link href={card.href} className="transition-colors hover:text-accent">

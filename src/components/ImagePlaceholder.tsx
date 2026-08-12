@@ -14,6 +14,8 @@ export function ImagePlaceholder({
   sizes,
   priority = false,
   shape = "rect",
+  aspectRatio,
+  focal,
 }: {
   image: ImageAsset;
   className?: string;
@@ -21,14 +23,23 @@ export function ImagePlaceholder({
   priority?: boolean;
   /** "circle" renders the slot as a circular crop (1:1 slots only). */
   shape?: "rect" | "circle";
+  /**
+   * Presentation crop for this surface (e.g. a 16/10 homepage card reusing a
+   * 3/2 article hero). The image record keeps its own ratio; this only changes
+   * how this rendering displays it. Same CSS form as the record, e.g. "16 / 10".
+   */
+  aspectRatio?: string;
+  /** Focal point for the presentation crop, as CSS object-position (e.g. "60% 45%"). */
+  focal?: string;
 }) {
   const shapeClass = shape === "circle" ? "rounded-full" : "";
+  const ratio = aspectRatio ?? image.aspectRatio;
 
   if (image.status === "approved" && image.src) {
     return (
       <div
         className={`relative overflow-hidden ${shapeClass} ${className}`}
-        style={{ aspectRatio: image.aspectRatio }}
+        style={{ aspectRatio: ratio }}
       >
         <Image
           src={image.src}
@@ -37,6 +48,7 @@ export function ImagePlaceholder({
           sizes={sizes ?? "100vw"}
           priority={priority}
           className="object-cover"
+          style={focal ? { objectPosition: focal } : undefined}
         />
       </div>
     );
@@ -49,7 +61,7 @@ export function ImagePlaceholder({
       className={`flex flex-col gap-1 overflow-hidden border border-line bg-cool ${
         shape === "circle" ? "items-center justify-center p-6 text-center" : "justify-end p-3"
       } ${shapeClass} ${className}`}
-      style={{ aspectRatio: image.aspectRatio }}
+      style={{ aspectRatio: ratio }}
     >
       <p className="line-clamp-1 font-sans text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-ink-faint">
         Image placeholder · {image.id}

@@ -27,6 +27,12 @@ blog, affiliate site or SEO content farm.
    remote, AI-generated or scraped imagery without explicit approval. Placeholders
    have stable IDs + briefs (PRD Appendix F) and reserve final aspect ratios.
    `ABOUT-ANDREAS-01` must eventually be a real photo of Andreas — never generated.
+   **Publication image rule:** every production article has one
+   `ARTICLE-HERO-[slug]` record (placeholder during research/review; normally
+   approved before publication). Once approved, that record is the single source
+   of truth for the article page AND image-based promotion surfaces (homepage
+   features, hubs) — never copy image metadata into surface-specific data.
+   Surfaces may re-crop via ImagePlaceholder's `aspectRatio`/`focal` props.
 8. Editorial Scandinavian design. Not generic Tailwind/SaaS/shadcn aesthetics: no
    pill buttons, glassmorphism, gradient decor, icon-circle feature cards, badge
    soup, universal card shadows or "Recent posts" sidebars.

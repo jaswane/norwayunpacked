@@ -2,6 +2,7 @@ import { articleSchema, type Article, type CategorySlug } from "./types";
 import { siteIndexable } from "@/lib/site";
 import { getTopic } from "./topics";
 import { oilFundArticle } from "./articles/oil-fund";
+import { dugnadArticle } from "./articles/dugnad";
 
 /**
  * Article registry + build-time validation.
@@ -9,7 +10,7 @@ import { oilFundArticle } from "./articles/oil-fund";
  * Since all routes import from here, an invalid article fails the
  * production build instead of shipping.
  */
-const rawArticles: Article[] = [oilFundArticle];
+const rawArticles: Article[] = [oilFundArticle, dugnadArticle];
 
 function validateArticles(articles: Article[]): Article[] {
   const slugs = new Set<string>();

@@ -1,5 +1,43 @@
 # Implementation status
 
+## Phase 1B release — article-image reuse + Dugnad baseline (2026-08-12)
+
+- Dugnad article text owner-approved; remains `review`/`fact-checked` (site is
+  pre-launch). ARTICLE-HERO-dugnad stays a placeholder — approved asset is a
+  pre-launch requirement.
+- **Article-image reuse:** ImagePlaceholder gained presentation-only
+  `aspectRatio`/`focal` props, so one approved ARTICLE-HERO record serves both
+  the article page (3:2) and promotion surfaces with their own crops. The
+  homepage Oil Fund card now derives image, title, excerpt, link and status
+  badge from the article record via `getArticle()` — no duplicated metadata.
+  When the site opens for indexing and the article is still unpublished, the
+  card automatically falls back to the old placeholder card with no link
+  (verified with a SITE_INDEXABLE=true build).
+- Publication image rule documented in CLAUDE.md.
+
+## Phase 1B — Second production article: What Is Dugnad? (2026-08-12)
+
+- `/culture/dugnad`, ~1,700 words, researched and fact-checked on 2026-08-12.
+  Research record: `docs/research/dugnad-research.md`.
+- Sources: Store norske leksikon (history, farm tasks, food tradition),
+  Bokmålsordboka/Nynorskordboka via Språkrådet and UiB (definition and Old
+  Norse etymology), NBBL and Huseierne (the legal position on whether dugnad
+  can be required, and why fines are not allowed), SSB (2017 volunteering
+  figures), the Prime Minister's 2020 press conference and Aftenposten (how
+  the word is used beyond practical work), thisisFINLAND (talkoot).
+- **Post-war question investigated and answered:** the tradition is centuries
+  older than 1945, and no source was found linking post-war rebuilding to
+  dugnad. The article says the dates do not fit and makes no post-war claim.
+- Two owner-supplied Andreas sections (apartment block; kindergarten as a
+  parent), used as lived experience with nothing added.
+- Uses the Oil Fund system unchanged — no new primitives. Registry additions
+  only: topics `volunteer-culture`, `community-life`, `housing-associations`,
+  `sports-clubs`, and `articleSlug` on the existing `dugnad` topic.
+- F1 (stable culture/history); the housing-law guidance and the 2017 SSB
+  figures are flagged as the parts to re-check.
+- Status `review` / `fact-checked`, so it stays noindex, out of the sitemap and
+  — verified again with `SITE_INDEXABLE=true` — off every public surface.
+
 ## Phase 1A voice + hero — final personal voice and article hero (2026-08-12)
 
 - Andreas note replaced with the owner-approved observation (supplied

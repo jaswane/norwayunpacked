@@ -30,12 +30,20 @@ export const topics: Topic[] = [
   { id: "why-norway-is-rich", label: "Why Norway is rich", world: "how-norway-works" },
 
   // Culture
-  { id: "dugnad", label: "Dugnad", world: "culture" },
+  { id: "dugnad", label: "Dugnad", articleSlug: "dugnad", world: "culture" },
   { id: "friluftsliv", label: "Friluftsliv", world: "culture" },
   { id: "cabin-culture", label: "Cabin culture", world: "culture" },
   { id: "17-may", label: "17 May", world: "culture" },
   { id: "janteloven", label: "Janteloven", world: "culture" },
+  { id: "volunteer-culture", label: "Volunteer culture", world: "culture" },
+  { id: "community-life", label: "Community life", world: "culture" },
   { id: "matpakke", label: "Matpakke", world: "food" },
+
+  // Life in Norway
+  { id: "housing-associations", label: "Housing associations", world: "life-in-norway" },
+
+  // Sport
+  { id: "sports-clubs", label: "Sports clubs", world: "sport" },
 
   // History
   { id: "1814", label: "Norway in 1814", world: "history" },
