@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/*
+ * Norway Unpacked design tokens — editorial Scandinavian.
+ * Warm paper background, near-black navy ink, muted Norwegian blue accent,
+ * sparing red-orange signal. Hierarchy comes from typography, whitespace
+ * and fine lines — not shadows, gradients or heavy radii.
+ */
+@theme {
+  /* Surfaces */
+  --color-paper: #fbf8f2;
+  --color-paper-shade: #f3eee4;
+  --color-cool: #edf1f5;
+  --color-footer: #10203a;
+
+  /* Ink */
+  --color-ink: #101d33;
+  --color-ink-soft: #44506a;
+  --color-ink-faint: #66718c;
+  --color-ink-on-dark: #e9ecf3;
+
+  /* Accents */
+  --color-accent: #22589f;
+  --color-accent-deep: #173f77;
+  --color-signal: #d4531f;
+
+  /* Lines */
+  --color-line: #e4ddcd;
+  --color-line-strong: #cfc6b0;
+
+  /* Typography */
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-source-sans), system-ui, "Segoe UI", sans-serif;
+
+  /* Layout */
+  --container-page: 75rem; /* ~1200px desktop content container */
+  --container-reading: 45rem; /* ~720px article reading width */
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Visible, consistent keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
