@@ -1,5 +1,38 @@
 # Implementation status
 
+## Phase 1C — Third production article: The Right to Roam (2026-08-13)
+
+- `/nature/right-to-roam`, ~2,000 words of body prose, researched and
+  fact-checked on 2026-08-13. Research record:
+  `docs/research/right-to-roam-research.md`.
+- Sources are statute-first: friluftsloven (§§ 1, 1a, 2, 3, 5, 9, 11, 15),
+  motorferdselloven § 3, forskrift om brannforebygging § 3, hundeloven § 6 and
+  the Lofoten friluftsforskrift, plus Miljødirektoratet guidance, NOU 2023: 10
+  and the new besøksbidragsloven.
+- The article's sharpest distinction: **a tent and a campervan are governed by
+  different acts.** Allemannsretten covers movement under your own power;
+  driving in utmark falls under motorferdselloven and is generally forbidden.
+- Tourism-pressure section uses documented material only (Lofoten camping rules
+  from 2021, residents naming traffic and villcamping as top challenges). The
+  hypothesis that campervan travellers spend less locally was investigated and
+  **not claimed** — no Norwegian study quantifying it was found.
+- No new primitives; registry additions only (`wild-camping`, `national-parks`,
+  `hiking`, plus `articleSlug` on the existing `right-to-roam` topic).
+- F2. Hero remains a placeholder; no inline diagram (a fact box does the
+  innmark/utmark job better). Status `review`/`fact-checked`, verified invisible
+  with SITE_INDEXABLE=true.
+- Legal micro-corrections (same day, second pass): friluftsloven **§ 3a** added
+  — roads and paths through innmark that lead to utmark stay open all year, so
+  the article now distinguishes crossing from following; **e-bikes** corrected
+  from "outside the right" to the accurate three-part position (not part of
+  allemannsretten, but generally permitted under FOR-1988-05-15-356 § 2a unless
+  the municipality restricts them).
+- **Pending law change flagged, not applied:** a new motorferdsellov (lov
+  19 June 2026 no. 53) repeals the 1977 act but is not yet in force. The article
+  describes current law; a note in the article file and the research file
+  requires re-verification of the campervan and motor-traffic sections before
+  publication.
+
 ## Phase 1B release — article-image reuse + Dugnad baseline (2026-08-12)
 
 - Dugnad article text owner-approved; remains `review`/`fact-checked` (site is

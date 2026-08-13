@@ -51,7 +51,10 @@ export const topics: Topic[] = [
   { id: "oil-history", label: "How oil changed Norway", world: "history" },
 
   // Nature
-  { id: "right-to-roam", label: "The right to roam", world: "nature" },
+  { id: "right-to-roam", label: "The right to roam", articleSlug: "right-to-roam", world: "nature" },
+  { id: "wild-camping", label: "Wild camping", world: "nature" },
+  { id: "national-parks", label: "National parks", world: "nature" },
+  { id: "hiking", label: "Hiking in Norway", world: "nature" },
 ];
 
 export function getTopic(id: string): Topic | undefined {
